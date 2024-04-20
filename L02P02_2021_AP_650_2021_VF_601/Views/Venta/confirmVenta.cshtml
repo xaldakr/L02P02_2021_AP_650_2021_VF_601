@@ -1,4 +1,10 @@
-﻿<main class="d-flex flex-wrap">
+﻿@{
+    pedido_encabeza cabeza = ViewBag.cabezon;
+    cliente clien = ViewBag.cliente;
+
+    
+}
+<main class="d-flex flex-wrap">
     <section class="col-sm-12 col-md-7">
         <h1>Proceso de Venta</h1>
         <br />
@@ -10,22 +16,22 @@
 
                 <div class="col-sm-6">
                     @Html.Label("Nombre")
-                    @Html.TextBox("nombre", "", new { @class = "form-control", @readonly = "readonly" })
+                    @Html.TextBox("nombre", clien.nombre, new { @class = "form-control", @readonly = "readonly" })
                     <br />
                 </div>
                 <div class="col-sm-6">
                     @Html.Label("Apellido")
-                    @Html.TextBox("apellido", "", new { @class = "form-control", @readonly = "readonly" })
+                    @Html.TextBox("apellido", clien.apellido, new { @class = "form-control", @readonly = "readonly" })
                     <br />
                 </div>
                 <div class="col-sm-12">
                     @Html.Label("Email")
-                    @Html.TextBox("email", "", new { @class = "form-control", @readonly = "readonly" })
+                    @Html.TextBox("email", clien.email, new { @class = "form-control", @readonly = "readonly" })
                     <br />
                 </div>
                 <div class="col-sm-12">
                     @Html.Label("Dirección")
-                    @Html.TextBox("Dirección", "", new { @class = "form-control", @readonly = "readonly" })
+                    @Html.TextBox("Dirección", clien.direccion, new { @class = "form-control", @readonly = "readonly" })
                     <br />
                 </div>
             </div>
@@ -34,10 +40,36 @@
     <section class="col-sm-12 col-md-5">
         <div class="d-flex justify-content-between align-items-center">
             <h3 class="text-primary text-start d-inline">Total libros</h3>
-            <h3 class="text-end"><span class="badge text-bg-primary rounded-circle d-inline  bg-primary align-self-end">0</span></h3>
+            <h3 class="text-end"><span class="badge text-bg-primary rounded-circle d-inline  bg-primary align-self-end"> @cabeza.cantidad_libros </span></h3>
+        </div>
+        @foreach (var dato in (IEnumerable<dynamic>)ViewData["listaCarro"])
+        {
+            <div class="row border border-1 border-secondary rounded-2 p-2 justify-content-between">
+                <section class="col-sm-6">
+                    <h4>@dato.nombre</h4>
+                    <h5>@dato.autor</h5>
+                </section>
+                <section class="col-sm-6">
+                    <h4 class="text-end">@dato.precio</h4>
+                </section>
+            </div>
+        }
+        <div class="row border border-1 border-secondary rounded-2 p-2 justify-content-between">
+            <section class="col-sm-6">
+                <h4>Total</h4>
+            </section>
+            <section class="col-sm-6">
+                <h4 class="text-end">@cabeza.total</h4>
+            </section>
         </div>
         <div class="border border-1 border-secondary rounded-2 p-2">
-            <input asp-action="MandarFin" type="submit" class="btn bg-success w-100 text-black" value="Cerrar Venta" />
+            <input asp-action="Finalizar" type="submit" class="btn bg-success w-100 text-black" value="Cerrar Venta" />
         </div>
     </section>
+    @if (TempData["Mensaje"] != null)
+    {
+        <script>
+            alert('@TempData["Mensaje"]');
+        </script>
+    }
 </main>

@@ -43,6 +43,10 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
         }
         public IActionResult ListaLibros()
         {
+            if (Encabeza == null || Client == null)
+            {
+                return RedirectToAction("Index");
+            }
             var listalibros = (from e in _LibreriaContext.libros
                                 join a in _LibreriaContext.autores on e.id_autor equals a.id
                                 select new
@@ -58,6 +62,24 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
         }
         public IActionResult confirmVenta()
         {
+            if (Encabeza == null || Client == null)
+            {
+                return RedirectToAction("Index");
+            }
+            var listacarro = (from e in _LibreriaContext.pedido_detalle
+                               join cab in _LibreriaContext.pedido_encabezado on e.id_pedido equals cab.id
+                               join l in _LibreriaContext.libros on e.id_libro equals l.id
+                               join a in _LibreriaContext.autores on l.id_autor equals a.id
+                              where cab.id == Encabeza.id
+                               select new
+                               {
+                                   nombre = l.nombre,
+                                   autor = a.autor,
+                                   precio = l.precio
+                               }).ToList();
+            ViewData["listaCarro"] = listacarro;
+            ViewBag.cliente = Client;
+            ViewBag.cabezon = Encabeza;
             return View();  
         }
         public IActionResult Agregar(int id, decimal precio)
@@ -77,6 +99,20 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
             _LibreriaContext.SaveChanges();
             return RedirectToAction("ListaLibros");
 
+        }
+
+        public IActionResult Finalizar() {
+            
+            pedido_encabeza? alterPedi = (from e in _LibreriaContext.pedido_encabezado
+                                         where e.id == Encabeza.id
+                                         select e).FirstOrDefault();
+            alterPedi.estado = "C";
+            _LibreriaContext.Entry(alterPedi).State = EntityState.Modified;
+            _LibreriaContext.SaveChanges();
+            Encabeza = null;
+            Client = null;
+            TempData["Mensaje"] = "Compra realizada Correctamente!!!";
+            return RedirectToAction("Index");
         }
     }
 }
