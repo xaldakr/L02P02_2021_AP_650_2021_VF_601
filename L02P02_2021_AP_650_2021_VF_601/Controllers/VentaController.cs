@@ -7,7 +7,7 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
     public class VentaController : Controller
     {
         public pedido_encabeza Encabeza;
-        public pedido_deta Detalle;
+        public cliente Client;
 
         private readonly LibreriaContexto _LibreriaContext;
         public VentaController(LibreriaContexto LibreriaContext)
@@ -22,7 +22,6 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
 
         public IActionResult IniciarVenta (cliente Clie)
         {
-            /*
             _LibreriaContext.Add(Clie);
             _LibreriaContext.SaveChanges();
             int idclie = _LibreriaContext.clientes.Select(c => (int?)c.id).Max() ?? 0; // Obtener id de pedido
@@ -30,11 +29,12 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
             Encabeza.id_cliente = idclie;
             Encabeza.total = 0;
             Encabeza.cantidad_libros = 0;
+            Encabeza.estado = "P";
             _LibreriaContext.Add(Encabeza);
             _LibreriaContext.SaveChanges();
             int idencabeza = _LibreriaContext.pedido_encabezado.Select(c => (int?)c.id).Max() ?? 0; //Obtener el id del encabezado;
             Encabeza = (pedido_encabeza)(from e in _LibreriaContext.pedido_encabezado where e.id == idencabeza select e);
-            */
+            Client = (cliente)(from e in _LibreriaContext.clientes where e.id == idclie select e);
             return RedirectToAction("ListaLibros");
         }
         public IActionResult MandarFin()
@@ -59,6 +59,23 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
         {
             return View();  
         }
+        public IActionResult Agregar(int id, decimal precio)
+        {
+            pedido_deta pedido_Deta = new pedido_deta();
+            pedido_Deta.id_libro = id;
+            pedido_Deta.id_pedido = Encabeza.id;
+            _LibreriaContext.Add(pedido_Deta);
+            _LibreriaContext.SaveChanges();
+            pedido_encabeza? alterPed = (from e in _LibreriaContext.pedido_encabezado
+                                         where e.id == Encabeza.id
+                                         select e).FirstOrDefault();
+            alterPed.total += precio;
+            alterPed.cantidad_libros++;
+            Encabeza = alterPed;
+            _LibreriaContext.Entry(alterPed).State = EntityState.Modified;
+            _LibreriaContext.SaveChanges();
+            return RedirectToAction("ListaLibros");
 
+        }
     }
 }
