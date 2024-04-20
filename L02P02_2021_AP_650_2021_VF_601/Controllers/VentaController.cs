@@ -1,13 +1,14 @@
 ﻿using L02P02_2021_AP_650_2021_VF_601.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace L02P02_2021_AP_650_2021_VF_601.Controllers
 {
     public class VentaController : Controller
     {
-        public pedido_encabeza Encabeza;
-        public cliente Client;
+        public static pedido_encabeza Encabeza;
+        public static cliente Client;
 
         private readonly LibreriaContexto _LibreriaContext;
         public VentaController(LibreriaContexto LibreriaContext)
@@ -22,6 +23,7 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
 
         public IActionResult IniciarVenta (cliente Clie)
         {
+            try { 
             _LibreriaContext.Add(Clie);
             _LibreriaContext.SaveChanges();
             int idclie = _LibreriaContext.clientes.Select(c => (int?)c.id).Max() ?? 0; // Obtener id de pedido
@@ -33,9 +35,16 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
             _LibreriaContext.Add(Encabeza);
             _LibreriaContext.SaveChanges();
             int idencabeza = _LibreriaContext.pedido_encabezado.Select(c => (int?)c.id).Max() ?? 0; //Obtener el id del encabezado;
-            Encabeza = (pedido_encabeza)(from e in _LibreriaContext.pedido_encabezado where e.id == idencabeza select e);
-            Client = (cliente)(from e in _LibreriaContext.clientes where e.id == idclie select e);
+            Encabeza = (from e in _LibreriaContext.pedido_encabezado where e.id == idencabeza select e).FirstOrDefault();
+            Client = (from e in _LibreriaContext.clientes where e.id == idclie select e).FirstOrDefault();
+            Debug.WriteLine(Encabeza.id + Encabeza.estado + Encabeza.id_cliente);
+            Debug.WriteLine(Client.id + Client.nombre);
             return RedirectToAction("ListaLibros");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index");
+            }
         }
         public IActionResult MandarFin()
         {

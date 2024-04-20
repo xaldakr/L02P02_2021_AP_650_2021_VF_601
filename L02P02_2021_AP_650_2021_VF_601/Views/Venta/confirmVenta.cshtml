@@ -63,7 +63,9 @@
             </section>
         </div>
         <div class="border border-1 border-secondary rounded-2 p-2">
-            <input asp-action="Finalizar" type="submit" class="btn bg-success w-100 text-black" value="Cerrar Venta" />
+            <form asp-action="Finalizar" method="post">
+                <input type="submit" class="btn bg-success w-100 text-black" value="Cerrar Venta" />
+            </form>
         </div>
     </section>
     @if (TempData["Mensaje"] != null)
