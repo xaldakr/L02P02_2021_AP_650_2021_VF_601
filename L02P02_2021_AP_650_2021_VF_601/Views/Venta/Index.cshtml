@@ -3,9 +3,20 @@
 }
 <br />
 <h1>Proceso de Venta</h1>
-<h3>Datos del cliente</h3>
-<form asp-action="Iniciar-Venta" method="post">
-    <div class="form-group row mb-4">
+<br />
 
+<h3>Datos del cliente</h3>
+<form asp-action="IniciarVenta" method="post">
+    <div class="form-group row mb-4">
+         
+        <div class="col-sm-6">
+            @Html.Label("Nombre")
+            @Html.TextBox("nombre", "", new { @class = "form-control" })
+        </div>
+        <div class="col-sm-6">
+            @Html.Label("Apellido")
+            @Html.TextBox("apellido", "", new { @class = "form-control" })
+        </div>
+    </div>
 </form>
 

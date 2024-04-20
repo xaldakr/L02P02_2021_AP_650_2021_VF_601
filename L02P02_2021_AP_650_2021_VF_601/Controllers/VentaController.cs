@@ -12,5 +12,10 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
 
             return View();
         }
+
+        public IActionResult IniciarVenta (cliente Clie)
+        {
+            return RedirectToAction("Index"); // Llevalo al siguiente view en vez de index
+        }
     }
 }
