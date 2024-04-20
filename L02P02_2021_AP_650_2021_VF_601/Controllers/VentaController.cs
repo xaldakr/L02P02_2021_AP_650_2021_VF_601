@@ -22,5 +22,9 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
         {
             return View();
         }
+        public IActionResult confirmVenta()
+        {
+            return View();  
+        }
     }
 }
