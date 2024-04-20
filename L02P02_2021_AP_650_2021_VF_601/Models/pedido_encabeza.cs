@@ -14,5 +14,7 @@ namespace L02P02_2021_AP_650_2021_VF_601.Models
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal total { get; set; }
+        [StringLength(1, ErrorMessage = "Solo puedes usar como máximo 1 carácter")]
+        public string? estado { get; set; }
     }
 }

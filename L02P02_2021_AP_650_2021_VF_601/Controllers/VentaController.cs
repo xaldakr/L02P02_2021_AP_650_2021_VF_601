@@ -37,14 +37,28 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
             */
             return RedirectToAction("ListaLibros");
         }
-
+        public IActionResult MandarFin()
+        {
+            return RedirectToAction("confirmVenta");
+        }
         public IActionResult ListaLibros()
         {
+            var listalibros = (from e in _LibreriaContext.libros
+                                join a in _LibreriaContext.autores on e.id_autor equals a.id
+                                select new
+                                {
+                                    id = e.id,
+                                    nombre = e.nombre,
+                                    autor = a.autor,
+                                    precio = e.precio
+                                }).ToList();
+            ViewData["listaLibros"] = listalibros;
             return View();
         }
         public IActionResult confirmVenta()
         {
             return View();  
         }
+
     }
 }
