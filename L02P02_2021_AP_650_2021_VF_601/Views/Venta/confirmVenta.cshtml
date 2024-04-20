@@ -3,5 +3,42 @@
 *@
 @{
 }
+<main class="d-flex flex-wrap">
+    <section>
+        <h1>Proceso de Venta</h1>
+        <br />
 
-<p>probando</p>
+        <h3>Datos del cliente</h3>
+
+        <form asp-action="IniciarVenta" method="post">
+            <div class="form-group row mb-4">
+
+                <div class="col-sm-6">
+                    @Html.Label("Nombre")
+                    @Html.TextBox("nombre", "", new { @class = "form-control" })
+                    <br />
+                </div>
+                <div class="col-sm-6">
+                    @Html.Label("Apellido")
+                    @Html.TextBox("apellido", "", new { @class = "form-control" })
+                    <br />
+                </div>
+                <div class="col-sm-12">
+                    @Html.Label("Email")
+                    @Html.TextBox("email", "", new { @class = "form-control" })
+                    <br />
+                </div>
+                <div class="col-sm-12">
+                    @Html.Label("Dirección")
+                    @Html.TextBox("Dirección", "", new { @class = "form-control" })
+                    <br />
+                </div>
+            </div>
+        </form>
+    </section>
+    <section>
+        <h3 class="text-info">Carrito</h3>
+
+    </section>
+</main>
+
