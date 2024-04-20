@@ -53,6 +53,7 @@ namespace L02P02_2021_AP_650_2021_VF_601.Controllers
                                     precio = e.precio
                                 }).ToList();
             ViewData["listaLibros"] = listalibros;
+            ViewBag.cabeza = Encabeza;
             return View();
         }
         public IActionResult confirmVenta()
