@@ -1,10 +1,5 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<main class="d-flex flex-wrap">
-    <section>
+﻿<main class="d-flex flex-wrap">
+    <section class="col-sm-12 col-md-7">
         <h1>Proceso de Venta</h1>
         <br />
 
@@ -15,30 +10,34 @@
 
                 <div class="col-sm-6">
                     @Html.Label("Nombre")
-                    @Html.TextBox("nombre", "", new { @class = "form-control" })
+                    @Html.TextBox("nombre", "", new { @class = "form-control", @readonly = "readonly" })
                     <br />
                 </div>
                 <div class="col-sm-6">
                     @Html.Label("Apellido")
-                    @Html.TextBox("apellido", "", new { @class = "form-control" })
+                    @Html.TextBox("apellido", "", new { @class = "form-control", @readonly = "readonly" })
                     <br />
                 </div>
                 <div class="col-sm-12">
                     @Html.Label("Email")
-                    @Html.TextBox("email", "", new { @class = "form-control" })
+                    @Html.TextBox("email", "", new { @class = "form-control", @readonly = "readonly" })
                     <br />
                 </div>
                 <div class="col-sm-12">
                     @Html.Label("Dirección")
-                    @Html.TextBox("Dirección", "", new { @class = "form-control" })
+                    @Html.TextBox("Dirección", "", new { @class = "form-control", @readonly = "readonly" })
                     <br />
                 </div>
             </div>
         </form>
     </section>
-    <section>
-        <h3 class="text-info">Carrito</h3>
-
+    <section class="col-sm-12 col-md-5">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="text-primary text-start d-inline">Total libros</h3>
+            <h3 class="text-end"><span class="badge text-bg-primary rounded-circle d-inline  bg-primary align-self-end">0</span></h3>
+        </div>
+        <div class="border border-1 border-secondary rounded-2 p-2">
+            <input asp-action="MandarFin" type="submit" class="btn bg-success w-100 text-black" value="Cerrar Venta" />
+        </div>
     </section>
 </main>
-
